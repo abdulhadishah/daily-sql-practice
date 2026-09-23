@@ -1,0 +1,16 @@
+23-09-2026:
+
+1. List all the columns of the Salespeople table. 
+SELECT * FROM Salespeople;
+
+2. List all customers with a rating of 100. 
+SELECT CNAME FROM Customers WHERE RATING = 100;
+
+3. Find all records in the Customer table with NULL values in the city column. 
+SELECT * FROM Customers WHERE CITY IS NULL;
+
+4. Find the largest order taken by each salesperson on each date. 
+SELECT SNAME, ODATE, MAX(AMT) FROM Salespeople AS s JOIN Orders AS o ON s.snum = o.snum GROUP BY ODATE, SNAME;
+
+5. Arrange the Orders table by descending customer number.
+SELECT ONUM, AMT, ODATE, o.CNUM, CNAME, CITY FROM Orders AS o LEFT JOIN Customers AS c ON o.CNUM = c.CNUM ORDER BY c.CNUM DESC;
