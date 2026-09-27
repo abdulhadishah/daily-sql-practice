@@ -14,3 +14,81 @@ SELECT SNAME, ODATE, MAX(AMT) FROM Salespeople AS s JOIN Orders AS o ON s.snum =
 
 5. Arrange the Orders table by descending customer number.
 SELECT ONUM, AMT, ODATE, o.CNUM, CNAME, CITY FROM Orders AS o LEFT JOIN Customers AS c ON o.CNUM = c.CNUM ORDER BY c.CNUM DESC;
+
+24-09-2026:
+
+6. Find which salespeople currently have orders in the Orders table. 
+SELECT DISTINCT SNAME FROM salespeople AS s JOIN orders AS o On s.SNUM = o.SNUM;
+
+7. List names of all customers matched with the salespeople serving them. 
+SELECT DISTINCT SNAME FROM salespeople s INNER JOIN orders o ON s.SNUM = o.SNUM;
+
+8. Find the names and numbers of all salespeople who had more than one customer. 
+SELECT s.SNAME, s.SNUM, COUNT(SNAME) AS "Count" FROM salespeople s JOIN customers c ON s.SNUM = c.SNUM GROUP BY s.SNAME, s.SNUM HAVING COUNT(SNAME) > 1;
+
+9. Count the orders of each of the salespeople and output the results in descending order. 
+SELECT DISTINCT SNAME, COUNT(ONUM) FROM salespeople AS s JOIN orders AS o On s.SNUM = o.SNUM GROUP BY SNAME ORDER BY COUNT(ONUM) DESC;
+
+10. List the Customer table if and only if one or more of the customers in the Customer table are located in San Jose
+SELECT * FROM customers WHERE EXISTS (SELECT 1 FROM customers WHERE city = “San Jose”);
+
+25-09-2026:
+
+11. Match salespeople to customers according to what city they lived in. 
+SELECT SNAME, CNAME FROM salespeople s JOIN customers c ON s.SNUM = c.SNUM WHERE s.CITY = c.CITY;
+
+12. Find the largest order taken by each salesperson. 
+SELECT s.SNUM, SNAME, MAX(AMT) FROM salespeople s JOIN orders o ON s.SNUM = o.SNUM GROUP BY s.SNUM ORDER BY SNUM;
+
+13. Find customers in San Jose who have a rating above 200. 
+SELECT CNUM, CNAME FROM customers WHERE CITY = "San Jose" AND RATING > 200;
+
+14. List the names and commissions of all salespeople in London. 
+SELECT SNAME, COMM FROM salespeople WHERE CITY = 'London';
+
+15. List all the orders of salesperson Motika from the Orders table. 
+SELECT * FROM salespeople AS s JOIN orders AS o ON s.SNUM = o.SNUM WHERE s.SNAME = "Motika";
+
+26-09-2026:
+
+16. Find all customers with orders on October 3. 
+SELECT CNAME, ODATE FROM customers AS c JOIN orders AS o ON c.SNUM = o.SNUM WHERE DATE_FORMAT(ODATE, "%m-%d") = '10-03';
+
+17. Give the sums of the amounts from the Orders table, grouped by date, eliminating all those
+dates where the SUM was not at least 2000.00 above the MAX amount. 
+
+SELECT ODATE, SUM(AMT) FROM orders GROUP BY ODATE HAVING SUM(AMT) - MAX(AMT) >= 2000;
+
+18. Select all orders that had amounts that were greater than at least one of the orders from October 6.
+
+SELECT * FROM orders WHERE AMT > (SELECT MIN(AMT) FROM orders WHERE DATE_FORMAT(ODATE, "%m-%d") = '10-06'); 
+
+19. Write a query that uses the EXISTS operator to extract all salespeople who have customers with a rating of 300. 
+
+SELECT * FROM salespeople AS s WHERE EXISTS (SELECT 1 FROM customers AS c WHERE c.SNUM = s.SNUM AND c.rating = 300);
+
+20. Find all pairs of customers having the same rating. 
+
+SELECT a.CNAME, b.CNAME, a.RATING FROM customers AS a JOIN customers AS b ON a.RATING = b.RATING AND a.CNUM < b.CNUM;
+
+27-09-2026:
+
+21. Find all customers whose CNUM is 1000 above the SNUM of Serres. 
+
+SELECT * FROM customers WHERE CNUM = (SELECT SNUM + 1000 FROM salespeople WHERE SNAME = "Serres"); 
+
+22. Give the salespeople’s commissions as percentages instead of decimal numbers. 
+
+SELECT SNUM, SNAME, CITY, CONCAT(COMM * 100, '%') "Commission %" FROM salespeople;
+
+23. Find the largest order taken by each salesperson on each date, eliminating those MAX orders which are less than $3000.00 in value. 
+
+SELECT s.SNUM, s.SNAME, o.ODATE, MAX(o.AMT) FROM salespeople AS s JOIN orders AS o ON s.SNUM = o.SNUM GROUP BY s.SNUM, s.SNAME, o.ODATE HAVING MAX(o.AMT) >= 3000;
+
+24. List the largest orders for October 3, for each salesperson. 
+
+SELECT s.SNAME, o.ODATE, MAX(o.AMT) FROM salespeople AS s JOIN orders AS o ON s.SNUM = o.SNUM GROUP BY s.SNAME, o.ODATE HAVING DATE_FORMAT(ODATE, "%m-%d") = '10-03';
+
+25. Find all customers located in cities where Serres (SNUM 1002) has customers. 
+
+SELECT * FROM customers WHERE CITY IN (SELECT CITY FROM customers WHERE SNUM = 1002);
