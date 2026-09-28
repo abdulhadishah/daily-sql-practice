@@ -92,3 +92,25 @@ SELECT s.SNAME, o.ODATE, MAX(o.AMT) FROM salespeople AS s JOIN orders AS o ON s.
 25. Find all customers located in cities where Serres (SNUM 1002) has customers. 
 
 SELECT * FROM customers WHERE CITY IN (SELECT CITY FROM customers WHERE SNUM = 1002);
+
+28-09-2026:
+
+26. Select all customers with a rating above 200.00. 
+
+SELECT * FROM customers WHERE RATING > 200;
+
+27. Count the number of salespeople currently listing orders in the Orders table. 
+
+ SELECT COUNT(DISTINCT SNUM) FROM orders;
+
+28. Write a query that produces all customers serviced by salespeople with a commission above 12%. Output the customer’s name and the salesperson’s rate of commission. 
+
+SELECT c.CNAME, s.SNAME FROM customers AS c JOIN salespeople AS s ON c.SNUM = s.SNUM WHERE s.COMM >= 0.12;
+
+29. Find salespeople who have multiple customers. 
+
+--
+
+30. Find salespeople with customers located in their city. 
+
+SELECT DISTINCT s.* FROM salespeople AS s JOIN customers AS c ON s.SNUM = c.SNUM WHERE s.CITY = c.CITY;
