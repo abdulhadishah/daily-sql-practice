@@ -114,3 +114,5 @@ SELECT c.CNAME, s.SNAME FROM customers AS c JOIN salespeople AS s ON c.SNUM = s.
 30. Find salespeople with customers located in their city. 
 
 SELECT DISTINCT s.* FROM salespeople AS s JOIN customers AS c ON s.SNUM = c.SNUM WHERE s.CITY = c.CITY;
+
+29-09-2026:
