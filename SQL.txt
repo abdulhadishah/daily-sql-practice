@@ -116,3 +116,45 @@ SELECT c.CNAME, s.SNAME FROM customers AS c JOIN salespeople AS s ON c.SNUM = s.
 SELECT DISTINCT s.* FROM salespeople AS s JOIN customers AS c ON s.SNUM = c.SNUM WHERE s.CITY = c.CITY;
 
 29-09-2026:
+
+31. Find all salespeople whose name starts with ‘P’ and the fourth character is ‘l’. 
+
+SELECT SNUM, SNAME FROM salespeople WHERE SNAME LIKE 'P__l%';
+
+32. Write a query that uses a subquery to obtain all orders for the customer named Cisneros. Assume you do not know his customer number
+
+SELECT * FROM orders WHERE CNUM = (SELECT CNUM FROM customers WHERE CNAME = 'Cisneros');
+
+33. Find the largest orders for Serres and Rifkin. 
+
+-- 
+
+34. Extract the Salespeople table in the following order : SNUM, SNAME, COMMISSION, CITY. 
+
+SELECT SNUM, SNAME, COMM AS "COMMISSION", CITY FROM salespeople;
+
+35. Select all customers whose names fall in between ‘A’ and ‘G’ alphabetical range. 
+
+SELECT * FROM customers WHERE CNAME BETWEEN 'A' AND 'G' ORDER BY CNAME;
+
+30-09-2026:
+
+36. Select all the possible combinations of customers that you can assign. 
+
+SELECT * FROM customers c1 JOIN customers c2 ON c1.CNUM < c2.CNUM;
+
+37. Select all orders that are greater than the average for October 4. 
+
+SELECT * FROM orders WHERE AMT > (SELECT AVG(AMT) FROM orders WHERE DATE_FORMAT(ODATE, "%m-%d") = "10-04");
+
+38. Write a select command using a corelated subquery that selects the names and numbers of all customers with ratings equal to the maximum for their city. 
+
+SELECT c1.CNAME, c1.CNUM FROM customers AS c1 WHERE c1.RATING = (SELECT MAX(c2.RATING) FROM customers AS c2 WHERE c1.CITY = c2.CITY);
+
+39. Write a query that totals the orders for each day and places the results in descending order. 
+
+SELECT ODATE, COUNT(ONUM) AS "Daily Total" FROM orders GROUP BY ODATE ORDER BY "Daily Total" DESC;
+
+40. Write a select command that produces the rating followed by the name of each customer in San Jose
+
+SELECT RATING, CNAME FROM customers WHERE CITY = 'San Jose';
