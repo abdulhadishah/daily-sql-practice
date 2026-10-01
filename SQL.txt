@@ -158,3 +158,25 @@ SELECT ODATE, COUNT(ONUM) AS "Daily Total" FROM orders GROUP BY ODATE ORDER BY "
 40. Write a select command that produces the rating followed by the name of each customer in San Jose
 
 SELECT RATING, CNAME FROM customers WHERE CITY = 'San Jose';
+
+01-10-2026:
+
+41. Find all orders with amounts smaller than any amount for a customer in San Jose. 
+
+SELECT * FROM orders WHERE AMT < ANY (SELECT AMT FROM orders o JOIN customers c ON o.SNUM = c.SNUM WHERE CITY = 'San Jose');
+
+42. Find all orders with above average amounts for their customers. 
+
+SELECT * FROM orders WHERE AMT > ANY (SELECT AVG(AMT) FROM orders o JOIN customers c ON o.SNUM = c.SNUM);
+
+43. Write a query that selects the highest rating in each city. 
+
+SELECT DISTINCT CITY, RATING FROM customers c1 WHERE c1.RATING = (SELECT MAX(RATING) FROM customers c2 WHERE c1.CITY = c2.CITY);
+
+44. Write a query that calculates the amount of the salesperson’s commission on each order by a customer with a rating above 100.00.
+
+--
+
+45. Count the customers with ratings above San Jose’s average
+
+SELECT COUNT(CNAME) FROM customers WHERE RATING > (SELECT AVG(RATING) FROM customers WHERE CITY = 'San Jose');
