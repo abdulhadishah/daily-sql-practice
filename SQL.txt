@@ -180,3 +180,29 @@ SELECT DISTINCT CITY, RATING FROM customers c1 WHERE c1.RATING = (SELECT MAX(RAT
 45. Count the customers with ratings above San Jose’s average
 
 SELECT COUNT(CNAME) FROM customers WHERE RATING > (SELECT AVG(RATING) FROM customers WHERE CITY = 'San Jose');
+
+02-10-2026:
+
+45. Count the customers with ratings above San Jose’s average
+
+SELECT COUNT(CNAME) FROM customers WHERE RATING > (SELECT AVG(RATING) FROM customers WHERE CITY = 'San Jose');
+
+46. Write a query that produces all pairs of salespeople with themselves as well as duplicate rows with the order reversed.
+
+SELECT * FROM salespeople AS s1 CROSS JOIN salespeople AS s2 ORDER BY s1.SNAME DESC;
+
+47. Find all salespeople that are located in either Barcelona or London. 
+
+SELECT SNUM, SNAME FROM salespeople WHERE CITY IN ('Barcelona', 'London');
+
+48. Find all salespeople with only one customer. 
+
+-- 
+
+49. Write a query that joins the Customer table to itself to find all pairs of customers served by a single salesperson.
+
+SELECT s.SNUM, s.SNAME FROM salespeople s WHERE s.SNUM IN (SELECT c1.SNUM FROM customers c1 JOIN customers c2 WHERE c1.SNUM = c2.SNUM AND c1.CNUM < c2.CNUM);
+
+50. Write a query that will give you all orders for more than $1000.00 
+
+SELECT ONUM, AMT FROM orders WHERE AMT > 1000;
