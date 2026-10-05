@@ -1,1 +1,24 @@
 03-10-2026:
+
+51. Write a query that lists each order number followed by the name of the customer who made that order.
+
+SELECT o.ONUM, c.CNAME FROM customers c JOIN orders o WHERE c.CNUM = o.CNUM;
+
+52. Write 2 queries that select all salespeople (by name and number) who have customers in their cities who they do not service, one using a join and one a correlated subquery. Which solution is more elegant? 
+
+SELECT DISTINCT s.SNUM, s.SNAME FROM salespeople s JOIN customers c ON s.CITY = c.CITY AND s.SNUM <> c.SNUM; -- more elegant
+
+SELECT DISTINCT s.SNUM, s.SNAME FROM salespeople s WHERE EXISTS (SELECT 1 FROM customers c WHERE s.CITY = c.CITY AND s.SNUM <> c.SNUM);
+
+53. Write a query that selects all customers whose ratings are equal to or greater than ANY (in the SQL sense) of Serres’? 
+
+SELECT CNAME FROM customers c1 WHERE c1.RATING >= ANY (SELECT RATING FROM customers c JOIN salespeople s ON c.SNUM = s.SNUM WHERE s.SNAME = 'Serres');
+
+54. Write 2 queries that will produce all orders taken on October 3 or October 4. 
+
+SELECT ONUM, ODATE FROM orders WHERE DATE_FORMAT(ODATE, "%m-%d") IN ("10-03", "10-04");
+
+55. Write a query that produces all pairs of orders by a given customer. Name that customer and eliminate duplicates. 
+
+SELECT DISTINCT o1.ONUM, o2.ONUM, (SELECT CNAME FROM customers c WHERE c.CNUM = o1.CNUM) AS CNAME FROM orders o1 JOIN orders o2 ON o1.SNUM = o2.SNUM WHERE o1.ONUM < o2.ONUM;
+
