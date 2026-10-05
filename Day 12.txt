@@ -1,1 +1,21 @@
 04-10-2026:
+
+56. Find only those customers whose ratings are higher than every customer in Rome.
+
+SELECT c2.CNAME, c2.CITY, c2.RATING FROM customers c2 WHERE c2.RATING > ALL (SELECT c1.RATING FROM customers c1 WHERE CITY = 'Rome');
+
+57. Write a query on the Customers table whose output will exclude all customers with a rating <= 100.00, unless they are located in Rome.
+
+SELECT * FROM CUSTOMERS WHERE RATING > 100 OR CITY = "ROME";
+
+58. Find all rows from the Customers table for which the salesperson number is 1001.
+
+SELECT * FROM customers WHERE SNUM = 1001;
+
+59. Find the total amount in Orders for each salesperson for whom this total is greater than the amount of the largest order in the table. 
+
+SELECT SNAME, SUM(AMT) FROM orders o JOIN salespeople s ON o.SNUM = s.SNUM GROUP BY s.SNUM, SNAME HAVING SUM(AMT) > (SELECT MAX(AMT) FROM orders);
+
+60. Write a query that selects all orders save those with zeroes or NULLs in the amount field.
+
+SELECT * FROM orders WHERE AMT > 0 AND AMT IS NOT NULL;
