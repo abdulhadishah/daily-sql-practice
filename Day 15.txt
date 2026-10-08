@@ -1,1 +1,21 @@
 07-10-2026:
+
+71. Write a query using ANY or ALL that will find all salespeople who have no customers located in their city.
+
+SELECT * FROM salespeople WHERE CITY <> ALL(SELECT CITY FROM customers);
+
+72. Write a query using the EXISTS operator that selects all salespeople with customers located in their cities who are not assigned to them.
+
+SELECT * FROM salespeople s WHERE EXISTS (SELECT 1 FROM customers c WHERE c.CITY = s.CITY AND c.SNUM <> s.SNUM);
+
+73. Write a query that selects all customers serviced by Peel or Motika. (Hint : The SNUM field relates the two tables to one another.)
+
+SELECT * FROM customers c JOIN salespeople s ON c.SNUM = s.SNUM WHERE SNAME IN ('Peel', 'Motika');
+
+74. Count the number of salespeople registering orders for each day. (If a salesperson has more than one order on a given day, he or she should be counted only once.)
+
+…
+
+75. Find all orders attributed to salespeople in London.
+
+SELECT * FROM orders WHERE SNUM IN (SELECT SNUM FROM salespeople WHERE CITY = "LONDON");
